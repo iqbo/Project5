@@ -9,7 +9,13 @@ int main(){
 	ifstream ifs;
 
 	ifs.open("input.txt");
-	ifs << "Writing...\n";
+	
+	string txt = "";
+
+	while(ifs >> txt)
+		cout << txt << " ";
+
+
 	ifs.close();
 
 
