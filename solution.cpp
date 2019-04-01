@@ -3,6 +3,21 @@
 
 using namespace std;
 
+class Node {
+
+	int src, dest;
+
+
+};
+
+
+class Graph {
+	
+	Node source, sink;
+
+
+};
+
 int main(){
 
 	//input file stream ()
@@ -19,3 +34,4 @@ int main(){
   return 0;
 
 }
+
