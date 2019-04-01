@@ -5,19 +5,16 @@ using namespace std;
 
 int main(){
 
-	//input file stream
-	ifstream ifs;
+	//input file stream ()
+	ifstream diceFile;
+	ifstream wordFile;
 
-	ifs.open("input.txt");
-	
-	string txt = "";
-
-	while(ifs >> txt)
-		cout << txt << " ";
+	diceFile.open("diceInput.txt");
+	wordFile.open("wordInput.txt");
 
 
-	ifs.close();
-
+	diceFile.close();
+	wordFile.close();
 
   return 0;
 
