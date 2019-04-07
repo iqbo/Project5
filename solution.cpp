@@ -12,9 +12,10 @@ using namespace std;
 
 class Node {
 
-	//src = name of that node
-	//dest = destination node
-	int src, dest;
+	public:
+	// id of that node
+	int id;
+	string data;
 
 };
 
@@ -23,7 +24,7 @@ class Graph {
 
 
 	public:
-		map<int,set<Node> > nodes;
+		map<int,set<int> > nodes;
 		Graph(ifstream, ifstream);
 
 
@@ -56,7 +57,16 @@ int main(int argc, char** argv){
 
 Graph::Graph(ifstream dice, ifstream words){
 
+
+	string temp = "";
+
 	//creates Source Node
+	Node source;
+	source.id = 0;
+	source.data = "";
+
+	
+
 }
 
 void checkWord(string){
