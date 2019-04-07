@@ -25,6 +25,8 @@ class Graph {
 
 	public:
 		map<int,set<int> > nodes;
+
+		//holds each node with their string data
 		Graph(ifstream&, ifstream&);
 
 
@@ -59,8 +61,10 @@ Graph::Graph(ifstream &dice, ifstream &words){
 
 	//creates Source Node
 	Node source;
-	source.id = 0;
-	source.data = "";
+//	source.id = 0;
+//	source.data = "";
+
+
 
 
 	int counter = 1;
@@ -70,6 +74,19 @@ Graph::Graph(ifstream &dice, ifstream &words){
 
 	//fill edges for source node
 		while(dice >> temp){
+
+		set<int> tempSet;
+
+		//creates nodes in the graph for the dice
+		nodes.insert(make_pair(counter,tempSet));
+
+
+
+
+
+
+
+
 
 		nodes.find(0)->second.insert(counter);
 
