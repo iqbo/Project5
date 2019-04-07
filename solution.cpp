@@ -21,6 +21,8 @@ class Graph {
 
 };
 
+void checkWord(string);
+
 int main(){
 
 	//input file stream ()
@@ -33,7 +35,16 @@ int main(){
 	diceFile.close();
 	wordFile.close();
 
+	//checks if the word can be spelled
+	
+	checkWord("test");
+
   return 0;
+
+}
+
+void checkWord(string){
+
 
 }
 
