@@ -78,12 +78,18 @@ Graph::Graph(ifstream &dice, ifstream &words){
 		}
 
 
+		//PRINTS OUT THE MAP TO TEST
 	cout << "test print: " << endl;
 	map<int,set<int> >::iterator ms;
-
+	set<int>::iterator ss;
 	for(ms = nodes.begin();ms!=nodes.end();++ms){
 
-		cout << "key: " << ms->first << endl;
+		cout << "key: " << ms->first << " , NodeIds: ";
+		for(ss = ms->second.begin();ss!=ms->second.end();++ss){
+		
+			cout << *ss << " ";
+		}
+		cout << endl;
 	}
 
 }
