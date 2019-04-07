@@ -74,13 +74,15 @@ Graph::Graph(ifstream &dice, ifstream &words){
 	nodes.insert(make_pair(0,source));
 
 	//fill edges for source node
-		while(dice >> temp){
+	while(dice >> temp){
 
 
-			Node diceNode;
-			diceNode.id = counter;
-			diceNode.data = temp;
-		
+		Node diceNode;
+		diceNode.id = counter;
+		diceNode.data = temp;
+
+		cout << "temp is being stored as: " << diceNode.data << endl;
+
 
 		//creates nodes in the graph for the dice
 		nodes.insert(make_pair(counter,diceNode));
@@ -97,10 +99,10 @@ Graph::Graph(ifstream &dice, ifstream &words){
 
 		counter++;
 
-		}
+	}
 
 
-		//PRINTS OUT THE MAP TO TEST
+	//PRINTS OUT THE MAP TO TEST
 	cout << "test print: " << endl;
 	map<int,Node >::iterator ms;
 	set<int>::iterator ss;
@@ -108,8 +110,8 @@ Graph::Graph(ifstream &dice, ifstream &words){
 
 		cout << "key: " << ms->first << " , NodeIds: ";
 		for(ss = ms->second.dests.begin();ss!=ms->second.dests.end();++ss){
-		
-			cout << *ss << " ";
+
+			cout << *ss << "(" << nodes.find(*ss)->second.data << ") ";
 		}
 		cout << endl;
 	}
