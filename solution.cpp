@@ -16,6 +16,7 @@ class Node {
 		// id of that node
 		int id;
 		string data;
+		set<int> dests;
 
 };
 
@@ -24,7 +25,7 @@ class Graph {
 
 
 	public:
-		map<int,set<int> > nodes;
+		map<int,Node > nodes;
 
 		//holds each node with their string data
 		Graph(ifstream&, ifstream&);
@@ -61,24 +62,28 @@ Graph::Graph(ifstream &dice, ifstream &words){
 
 	//creates Source Node
 	Node source;
-//	source.id = 0;
-//	source.data = "";
+	source.id = 0;
+	source.data = "";
 
+	set<int> sourceSet;
 
-
+	source.dests = sourceSet;
 
 	int counter = 1;
 
-	set<int> sourceSet;
-	nodes.insert(make_pair(0,sourceSet));
+	nodes.insert(make_pair(0,source));
 
 	//fill edges for source node
 		while(dice >> temp){
 
-		set<int> tempSet;
+
+			Node diceNode;
+			diceNode.id = counter;
+			diceNode.data = temp;
+		
 
 		//creates nodes in the graph for the dice
-		nodes.insert(make_pair(counter,tempSet));
+		nodes.insert(make_pair(counter,diceNode));
 
 
 
@@ -88,7 +93,7 @@ Graph::Graph(ifstream &dice, ifstream &words){
 
 
 
-		nodes.find(0)->second.insert(counter);
+		nodes.find(0)->second.dests.insert(counter);
 
 		counter++;
 
@@ -97,12 +102,12 @@ Graph::Graph(ifstream &dice, ifstream &words){
 
 		//PRINTS OUT THE MAP TO TEST
 	cout << "test print: " << endl;
-	map<int,set<int> >::iterator ms;
+	map<int,Node >::iterator ms;
 	set<int>::iterator ss;
 	for(ms = nodes.begin();ms!=nodes.end();++ms){
 
 		cout << "key: " << ms->first << " , NodeIds: ";
-		for(ss = ms->second.begin();ss!=ms->second.end();++ss){
+		for(ss = ms->second.dests.begin();ss!=ms->second.dests.end();++ss){
 		
 			cout << *ss << " ";
 		}
