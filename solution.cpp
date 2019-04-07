@@ -23,22 +23,22 @@ class Graph {
 
 void checkWord(string);
 
-int main(){
+int main(int argc, char** argv){
 
 	//input file stream ()
 	ifstream diceFile;
 	ifstream wordFile;
 
-	diceFile.open("diceInput.txt");
-	wordFile.open("wordInput.txt");
+	diceFile.open(argv[1]);
+	wordFile.open(argv[2]);
 
-	diceFile.close();
-	wordFile.close();
 
 	//checks if the word can be spelled
 	
 	checkWord("test");
 
+	diceFile.close();
+	wordFile.close();
   return 0;
 
 }
