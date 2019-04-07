@@ -13,9 +13,9 @@ using namespace std;
 class Node {
 
 	public:
-	// id of that node
-	int id;
-	string data;
+		// id of that node
+		int id;
+		string data;
 
 };
 
@@ -25,12 +25,11 @@ class Graph {
 
 	public:
 		map<int,set<int> > nodes;
-		Graph(ifstream, ifstream);
+		Graph(ifstream&, ifstream&);
 
 
 };
 
-void checkWord(string);
 
 int main(int argc, char** argv){
 
@@ -44,10 +43,9 @@ int main(int argc, char** argv){
 
 	//checks if the word can be spelled
 
+	Graph *g1 = new Graph(diceFile,wordFile);
 
 
-
-	checkWord("test");
 
 	diceFile.close();
 	wordFile.close();
@@ -55,8 +53,7 @@ int main(int argc, char** argv){
 
 }
 
-Graph::Graph(ifstream dice, ifstream words){
-
+Graph::Graph(ifstream &dice, ifstream &words){
 
 	string temp = "";
 
@@ -65,12 +62,30 @@ Graph::Graph(ifstream dice, ifstream words){
 	source.id = 0;
 	source.data = "";
 
-	
+
+	int counter = 1;
+
+	set<int> sourceSet;
+	nodes.insert(make_pair(0,sourceSet));
+
+	//fill edges for source node
+		while(dice >> temp){
+
+		nodes.find(0)->second.insert(counter);
+
+		counter++;
+
+		}
+
+
+	cout << "test print: " << endl;
+	map<int,set<int> >::iterator ms;
+
+	for(ms = nodes.begin();ms!=nodes.end();++ms){
+
+		cout << "key: " << ms->first << endl;
+	}
 
 }
 
-void checkWord(string){
-
-
-}
 
