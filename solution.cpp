@@ -58,6 +58,10 @@ int main(int argc, char** argv){
 
 Graph::Graph(ifstream &dice, ifstream &words){
 
+	//nodes and dest iterators
+	map<int,Node >::iterator ms;
+	set<int>::iterator ss;
+
 	string temp = "";
 
 	//creates Source Node
@@ -84,12 +88,6 @@ Graph::Graph(ifstream &dice, ifstream &words){
 		//creates nodes in the graph for the dice
 		nodes.insert(make_pair(counter,diceNode));
 
-
-
-
-
-
-
 		nodes.find(0)->second.dests.insert(counter);
 
 		counter++;
@@ -97,10 +95,34 @@ Graph::Graph(ifstream &dice, ifstream &words){
 	}
 
 
+	//adds dice to letter edges
+	
+	//iterates through each dice node
+	for(ss = nodes.find(0)->second.dests.begin();ss!=nodes.find(0)->second.dests.end();++ss){
+	
+		//iterates through each character in a dice node
+		for(int i = 0;i<nodes.find(*ss)->second.data.size();i++){
+
+			for(int j = 0)
+		}
+	
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	//PRINTS OUT THE MAP TO TEST
 	cout << "test print: " << endl;
-	map<int,Node >::iterator ms;
-	set<int>::iterator ss;
 	for(ms = nodes.begin();ms!=nodes.end();++ms){
 
 		cout << "key: " << ms->first << " , NodeIds: ";
