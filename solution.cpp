@@ -81,13 +81,8 @@ Graph::Graph(ifstream &dice, ifstream &words){
 		diceNode.id = counter;
 		diceNode.data = temp;
 
-		cout << "temp is being stored as: " << diceNode.data << endl;
-
-
 		//creates nodes in the graph for the dice
 		nodes.insert(make_pair(counter,diceNode));
-
-
 
 
 
