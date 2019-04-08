@@ -97,7 +97,7 @@ Graph::Graph(ifstream &dice, ifstream &words){
 	}
 
 	//temp = word to look through
-temp = "RAE";
+	temp = "RAGE";
 	//adds dice to letter edges
 
 	//iterates through each dice node
@@ -107,22 +107,26 @@ temp = "RAE";
 		for(int i = 0;i<nodes.find(*ss)->second.data.size();i++){
 
 
-				for(int j = 0;j<temp.size();j++){
+			for(int j = 0;j<temp.size();j++){
 
-			cout << "checking character: " << nodes.find(*ss)->second.data.at(i) << " with " << temp.at(j) << endl;
-					if(nodes.find(*ss)->second.data.at(i) == temp.at(j)){
+				//			cout << "checking character: " << nodes.find(*ss)->second.data.at(i) << " with " << temp.at(j) << endl;
+				if(nodes.find(*ss)->second.data.at(i) == temp.at(j)){
 
 
-						//creates temporary node to become a letter node
-						Node n;
-						n.id = 5;
-						n.data = temp.at(j);
-							nodes.find(*ss)->second.dests.insert(5);
-							nodes.insert(make_pair(5,n));
-//						cout << *ss << " has a match!" << endl;
-					}
+					//creates temporary node to become a letter node
+					Node n;
+					n.id = (nodes.size()-1+*ss);
+					n.data = temp.at(j);
 
+					//inserts new node destination set
+					nodes.find(*ss)->second.dests.insert((nodes.size()-1)+*ss);
+
+					//inserts new node into map
+					nodes.insert(make_pair((nodes.size()-1)+*ss,n));
+					//						cout << *ss << " has a match!" << endl;
 				}
+
+			}
 
 		}
 
