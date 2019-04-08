@@ -120,7 +120,7 @@ Graph::Graph(ifstream &dice, ifstream &words){
 
 					//inserts new node destination set
 					nodes.find(*ss)->second.dests.insert((nodes.size()-1)+*ss);
-
+					cout << "inserting key = " << (nodes.size()-1)+*ss << endl;
 					//inserts new node into map
 					nodes.insert(make_pair((nodes.size()-1)+*ss,n));
 					//						cout << *ss << " has a match!" << endl;
