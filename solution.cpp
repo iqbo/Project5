@@ -113,10 +113,6 @@ Graph::Graph(ifstream &dice, ifstream &words){
 			//iterates through character in a word
 			for(int j = 0;j<temp.size();j++){
 
-
-				//	cout << "checking character: " << nodes.find(*ss)->second.data.at(i) << " with " << temp.at(j) << endl;
-
-
 				//creates temporary node to become a letter node
 				Node n;
 
@@ -132,23 +128,15 @@ Graph::Graph(ifstream &dice, ifstream &words){
 					n.id = (nodes.size()+j);
 					n.data = temp.at(j);
 
-
 					//inserts new node into map
 					nodes.insert(make_pair(numOfDice+j,n));
-
-
-					//inserts new node destination set
-					nodes.find(*ss)->second.dests.insert(numOfDice+j);
-					//				cout << "inserting key = " << (nodes.size()-1)+*ss << endl;
-
-
-
+				
 				}
 
-
 				if(nodes.find(*ss)->second.data.at(i) == temp.at(j)){
-
-
+				
+					//inserts new node destination set
+					nodes.find(*ss)->second.dests.insert(numOfDice+j);
 
 				}
 
