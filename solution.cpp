@@ -43,17 +43,7 @@ int main(int argc, char** argv){
 	diceFile.open(argv[1]);
 	wordFile.open(argv[2]);
 
-
-	//checks if the word can be spelled
-
-	string checkedWord = "";
-
 	Graph *g1;
-
-	//	while(wordFile >> checkedWord){
-	//		cout << "checkedWord:  " << checkedWord << endl;
-	//		g1 = new Graph(diceFile,checkedWord);
-	//	}
 
 
 	g1 = new Graph(diceFile,wordFile);
@@ -115,12 +105,9 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 	while(word >> temp){
 
-	//resets counter to be used for numOfLetters
-	counter = 0;
+		//resets counter to be used for numOfLetters
+		counter = 0;
 
-
-		//temp = word to look through
-//		temp = "RAGE";
 		//adds dice to letter edges
 
 		//iterates through each dice node
@@ -128,7 +115,6 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 			//iterates through each character in a dice node
 			for(int i = 0;i<nodes.find(*ss)->second.data.size();i++){
-
 
 				//iterates through character in a word
 				for(int j = 0;j<temp.size();j++){
@@ -172,19 +158,17 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 		nodes.insert(make_pair((sink.id),sink));
 
-//cout << "current size of map: " << nodes.size() << endl;
+		//cout << "current size of map: " << nodes.size() << endl;
 
 		for(int i = numOfDice;i<sink.id;i++){
 
-//		cout << "sink.id currently = " << sink.id << endl;
-//		cout << "# of letters: " << numOfLetters << endl;
+			//		cout << "sink.id currently = " << sink.id << endl;
+			//		cout << "# of letters: " << numOfLetters << endl;
 
 
 			nodes.find(i)->second.dests.insert(sink.id);
 
 		}
-
-
 
 		//PRINTS OUT THE MAP TO TEST
 		cout << "\ntest print: " << endl;
@@ -202,19 +186,14 @@ Graph::Graph(ifstream &dice, ifstream &word){
 		}
 
 
-	//clears out word data from map
-	
+		//clears out word data from map
 
-//		clears all sets after sink
-	for(ms = nodes.find(1);ms!=nodes.end();++ms){
-			
+		//		clears all sets after sink
+		for(ms = nodes.find(1);ms!=nodes.end();++ms){
 			ms->second.dests.clear();
-
-
-	}
+		}
 
 		nodes.erase(nodes.find(numOfDice),nodes.end());
-
 
 	}
 
