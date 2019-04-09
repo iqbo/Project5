@@ -28,7 +28,7 @@ class Graph {
 		map<int,Node > nodes;
 
 		//holds each node with their string data
-		Graph(ifstream&, string);
+		Graph(ifstream&, ifstream&);
 		int numOfDice;
 		int numOfLetters;
 };
@@ -56,12 +56,8 @@ int main(int argc, char** argv){
 	//	}
 
 
-	g1 = new Graph(diceFile,"PEEN");
-delete g1;
+	g1 = new Graph(diceFile,wordFile);
 
-	Graph *g2;
-
-	g2 = new Graph(diceFile,"PEEN");
 	diceFile.close();
 	wordFile.close();
 	return 0;
@@ -69,14 +65,14 @@ delete g1;
 }
 
 
-Graph::Graph(ifstream &dice, string word){
+Graph::Graph(ifstream &dice, ifstream &word){
 
 
 	//holds dice data
 	string diceTemp = "";
 
 	//holds word
-	string temp = word;
+	string temp = "";
 
 
 	//nodes and dest iterators
@@ -116,44 +112,48 @@ Graph::Graph(ifstream &dice, string word){
 	//sets number of dice
 	numOfDice = counter;
 
+
+	while(word >> temp){
+
 	//resets counter to be used for numOfLetters
 	counter = 0;
 
 
+		//temp = word to look through
+//		temp = "RAGE";
+		//adds dice to letter edges
 
-	//temp = word to look through
-	//	temp = "PEEN";
-	//adds dice to letter edges
+		//iterates through each dice node
+		for(ss = nodes.find(0)->second.dests.begin();ss!=nodes.find(0)->second.dests.end();++ss){
 
-	//iterates through each dice node
-	for(ss = nodes.find(0)->second.dests.begin();ss!=nodes.find(0)->second.dests.end();++ss){
-
-		//iterates through each character in a dice node
-		for(int i = 0;i<nodes.find(*ss)->second.data.size();i++){
+			//iterates through each character in a dice node
+			for(int i = 0;i<nodes.find(*ss)->second.data.size();i++){
 
 
-			//iterates through character in a word
-			for(int j = 0;j<temp.size();j++){
+				//iterates through character in a word
+				for(int j = 0;j<temp.size();j++){
 
-				//creates temporary node to become a letter node
-				Node n;
+					//creates temporary node to become a letter node
+					Node n;
 
-				//checks to see if letter node is in the map
-				if(nodes.find(numOfDice+j) == nodes.end()){
+					//checks to see if letter node is in the map
+					if(nodes.find(numOfDice+j) == nodes.end()){
 
-					n.id = (nodes.size()+j);
-					n.data = temp.at(j);
+						n.id = (nodes.size()+j);
+						n.data = temp.at(j);
 
-					//inserts new node into map
-					nodes.insert(make_pair(numOfDice+j,n));
-					counter++;	
+						//inserts new node into map
+						nodes.insert(make_pair(numOfDice+j,n));
+						counter++;	
 
-				}
+					}
 
-				if(nodes.find(*ss)->second.data.at(i) == temp.at(j)){
+					if(nodes.find(*ss)->second.data.at(i) == temp.at(j)){
 
-					//inserts new node destination set
-					nodes.find(*ss)->second.dests.insert(numOfDice+j);
+						//inserts new node destination set
+						nodes.find(*ss)->second.dests.insert(numOfDice+j);
+
+					}
 
 				}
 
@@ -161,43 +161,63 @@ Graph::Graph(ifstream &dice, string word){
 
 		}
 
-	}
+		//sets number of letters
+		numOfLetters = counter;
+		//	cout << "# of letters in word: " << numOfLetters << endl;
 
-	//sets number of letters
-	numOfLetters = counter;
-	//	cout << "# of letters in word: " << numOfLetters << endl;
+		//adds sink node
+		Node sink;
+		sink.id = numOfDice+numOfLetters;
+		sink.data = "";
 
-	//adds sink node
-	Node sink;
-	sink.id = numOfDice+numOfLetters;
-	sink.data = "";
+		nodes.insert(make_pair((sink.id),sink));
 
-	nodes.insert(make_pair((sink.id),sink));
+//cout << "current size of map: " << nodes.size() << endl;
 
+		for(int i = numOfDice;i<sink.id;i++){
 
-
-	for(int i = numOfDice;i<sink.id;i++){
-
-		nodes.find(i)->second.dests.insert(sink.id);
-
-	}
+//		cout << "sink.id currently = " << sink.id << endl;
+//		cout << "# of letters: " << numOfLetters << endl;
 
 
+			nodes.find(i)->second.dests.insert(sink.id);
 
-	//PRINTS OUT THE MAP TO TEST
-	cout << "test print: " << endl;
-
-	cout << "word: " << temp << endl;
-
-	for(ms = nodes.begin();ms!=nodes.end();++ms){
-
-		cout << "key: " << ms->first << " , NodeIds: ";
-		for(ss = ms->second.dests.begin();ss!=ms->second.dests.end();++ss){
-
-			cout << *ss << "(" << nodes.find(*ss)->second.data << ") ";
 		}
-		cout << endl;
+
+
+
+		//PRINTS OUT THE MAP TO TEST
+		cout << "\ntest print: " << endl;
+
+		cout << "word: " << temp << endl;
+
+		for(ms = nodes.begin();ms!=nodes.end();++ms){
+
+			cout << "key: " << ms->first << " , NodeIds: ";
+			for(ss = ms->second.dests.begin();ss!=ms->second.dests.end();++ss){
+
+				cout << *ss << "(" << nodes.find(*ss)->second.data << ") ";
+			}
+			cout << endl;
+		}
+
+
+	//clears out word data from map
+	
+
+//		clears all sets after sink
+	for(ms = nodes.find(1);ms!=nodes.end();++ms){
+			
+			ms->second.dests.clear();
+
+
 	}
+
+		nodes.erase(nodes.find(numOfDice),nodes.end());
+
+
+	}
+
 
 }
 
