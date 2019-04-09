@@ -30,7 +30,7 @@ class Graph {
 		//holds each node with their string data
 		Graph(ifstream&, ifstream&);
 	int numOfDice;
-
+	int numOfLetters;
 };
 
 
@@ -99,6 +99,11 @@ Graph::Graph(ifstream &dice, ifstream &words){
 	//sets number of dice
 	numOfDice = counter;
 
+	//resets counter to be used for numOfLetters
+	counter = 0;
+
+
+
 	//temp = word to look through
 	temp = "RAGE";
 	//adds dice to letter edges
@@ -130,7 +135,11 @@ Graph::Graph(ifstream &dice, ifstream &words){
 
 					//inserts new node into map
 					nodes.insert(make_pair(numOfDice+j,n));
-				
+					counter++;	
+
+					//sets letter node dest to sink node
+
+
 				}
 
 				if(nodes.find(*ss)->second.data.at(i) == temp.at(j)){
@@ -144,10 +153,27 @@ Graph::Graph(ifstream &dice, ifstream &words){
 
 		}
 
+
 	}
 
+		//sets number of letters
+		numOfLetters = counter;
+		cout << "# of letters in word: " << numOfLetters << endl;
+
+//adds sink node
+	Node sink;
+	sink.id = numOfDice+numOfLetters;
+	sink.data = "";
+
+	nodes.insert(make_pair((sink.id),sink));
 
 
+
+	for(int i = numOfDice;i<sink.id;i++){
+
+		nodes.find(i)->second.dests.insert(sink.id);
+
+	}
 
 
 
