@@ -29,7 +29,7 @@ class Graph {
 
 		//holds each node with their string data
 		Graph(ifstream&, ifstream&);
-
+	int numOfDice;
 
 };
 
@@ -96,6 +96,9 @@ Graph::Graph(ifstream &dice, ifstream &words){
 
 	}
 
+	//sets number of dice
+	numOfDice = counter;
+
 	//temp = word to look through
 	temp = "RAGE";
 	//adds dice to letter edges
@@ -107,23 +110,46 @@ Graph::Graph(ifstream &dice, ifstream &words){
 		for(int i = 0;i<nodes.find(*ss)->second.data.size();i++){
 
 
+			//iterates through character in a word
 			for(int j = 0;j<temp.size();j++){
 
-				//			cout << "checking character: " << nodes.find(*ss)->second.data.at(i) << " with " << temp.at(j) << endl;
+
+				//	cout << "checking character: " << nodes.find(*ss)->second.data.at(i) << " with " << temp.at(j) << endl;
+
+
+				//creates temporary node to become a letter node
+				Node n;
+
+
+				//checks to see if letter node is in the map
+				if(nodes.find(numOfDice+j) == nodes.end()){
+
+					cout << "nodes.find(" << numOfDice+j << ")"  << endl;
+
+					cout << "j is " << j << endl;
+					cout << "adding node to index " << nodes.size()+j << endl;
+
+					n.id = (nodes.size()+j);
+					n.data = temp.at(j);
+
+
+					//inserts new node into map
+					nodes.insert(make_pair(numOfDice+j,n));
+
+
+					//inserts new node destination set
+					nodes.find(*ss)->second.dests.insert(numOfDice+j);
+					//				cout << "inserting key = " << (nodes.size()-1)+*ss << endl;
+
+
+
+				}
+
+
 				if(nodes.find(*ss)->second.data.at(i) == temp.at(j)){
 
 
-					//creates temporary node to become a letter node
-					Node n;
-					n.id = (nodes.size()-1+*ss);
-					n.data = temp.at(j);
 
-					//inserts new node destination set
-					nodes.find(*ss)->second.dests.insert((nodes.size()-1)+*ss);
-					cout << "inserting key = " << (nodes.size()-1)+*ss << endl;
-					//inserts new node into map
-					nodes.insert(make_pair((nodes.size()-1)+*ss,n));
-					//						cout << *ss << " has a match!" << endl;
 				}
 
 			}
@@ -131,12 +157,6 @@ Graph::Graph(ifstream &dice, ifstream &words){
 		}
 
 	}
-
-
-
-
-
-
 
 
 
