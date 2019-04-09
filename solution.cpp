@@ -29,8 +29,8 @@ class Graph {
 
 		//holds each node with their string data
 		Graph(ifstream&, ifstream&);
-	int numOfDice;
-	int numOfLetters;
+		int numOfDice;
+		int numOfLetters;
 };
 
 
@@ -143,7 +143,7 @@ Graph::Graph(ifstream &dice, ifstream &words){
 				}
 
 				if(nodes.find(*ss)->second.data.at(i) == temp.at(j)){
-				
+
 					//inserts new node destination set
 					nodes.find(*ss)->second.dests.insert(numOfDice+j);
 
@@ -156,11 +156,11 @@ Graph::Graph(ifstream &dice, ifstream &words){
 
 	}
 
-		//sets number of letters
-		numOfLetters = counter;
-		cout << "# of letters in word: " << numOfLetters << endl;
+	//sets number of letters
+	numOfLetters = counter;
+	cout << "# of letters in word: " << numOfLetters << endl;
 
-//adds sink node
+	//adds sink node
 	Node sink;
 	sink.id = numOfDice+numOfLetters;
 	sink.data = "";
