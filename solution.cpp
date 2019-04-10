@@ -131,7 +131,6 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 		flag = 0;
 
-		cout << "here" << endl;
 		for(int i = 0;i<temp.size();i++){
 			
 			if(find(diceChars.begin(),diceChars.end(),temp.at(i)) == diceChars.end()){
@@ -232,8 +231,11 @@ Graph::Graph(ifstream &dice, ifstream &word){
 		int result;
 		while(true){
 			result = BFS(0);
+
+			//if result ==-1, there are no more paths
 			if(result == -1){
 //				cout << "no more paths!" << endl;
+
 				if(nodes.end()->second.dests.size()==temp.size())
 					cout << temp << "  can be spelled!" << endl;
 				else
@@ -294,9 +296,6 @@ int Graph::BFS(int source){
 	//backedge path vector
 	vector<int> path;
 
-
-
-
 	visited.at(source) = true;
 	queue.push_back(source);
 
@@ -317,12 +316,13 @@ int Graph::BFS(int source){
 		//gets destination nodes
 		for(i = nodes.find(source)->second.dests.begin();i!=nodes.find(source)->second.dests.end();++i){
 
-			if(!visited.at(*i)){
+			if(!visited.at(*i) && (find(queue.begin(),queue.end(),*i) == queue.end())){
 
 				visited.at(*i) = true;
 
 				queue.push_back(*i);
 
+				//only pushes unique backedges onto the backedge path vector
 				if(find(path.begin(),path.end(),nodes.find(source)->second.id) == path.end()){
 					path.push_back(nodes.find(source)->second.id);
 					cout << "pushing " << nodes.find(source)->second.id << endl; 
@@ -332,7 +332,6 @@ int Graph::BFS(int source){
 			}
 
 		}
-
 
 	}
 
