@@ -9,6 +9,7 @@
 #include <map>
 #include <list>
 #include <algorithm>
+#include <vector>
 
 using namespace std;
 
@@ -37,6 +38,8 @@ class Graph {
 
 
 		void checkWord();
+		void BFS(int);
+
 
 };
 
@@ -193,6 +196,8 @@ Graph::Graph(ifstream &dice, ifstream &word){
 		}
 
 
+		BFS(0);
+
 		//clears out word data from map
 
 		//		clears all sets after sink
@@ -213,6 +218,9 @@ void Graph::checkWord(){
 
 	list<int> queue;
 	list<int> backEdge;
+	list<int> visited;
+
+
 
 	//load each neighbor to the queue
 	if(nodes.find(0)->second.dests.size()>0){
@@ -222,6 +230,7 @@ void Graph::checkWord(){
 
 			//push them on to the queue
 			queue.push_back(*ss);			
+		
 
 
 		}
@@ -229,5 +238,47 @@ void Graph::checkWord(){
 
 
 	}
+
+}
+
+void Graph::BFS(int source){
+
+	vector<int> visited;
+
+	//All nodes are unvisited
+	visited.resize(nodes.size(),false);
+
+	//BFS queue
+	list<int> queue;
+
+	visited.at(source) = true;
+	queue.push_back(source);
+
+	set<int>::iterator i;
+
+	while(!queue.empty()){
+
+		source = queue.front();
+
+		cout << source << " ";
+
+		queue.pop_front();
+
+
+		//gets destination nodes
+		for(i = nodes.find(source)->second.dests.begin();i!=nodes.find(source)->second.dests.end();++i){
+
+			if(!visited.at(*i)){
+
+				visited.at(*i) = true;
+				queue.push_back(*i);
+
+			}
+
+		}
+
+
+	}
+
 
 }
