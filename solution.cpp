@@ -9,6 +9,7 @@
 #include <map>
 #include <list>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -179,7 +180,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 			nodes.find(i)->second.dests.insert(sink.id);
 
 		}
-/*
+
 		//PRINTS OUT THE MAP TO TEST
 		cout << "\ntest print: " << endl;
 
@@ -194,7 +195,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 			}
 			cout << endl;
 		}
-*/
+
 		//holds initial state of nodemap
 		initState = nodes;
 
@@ -212,7 +213,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 			}
 		}
 
-/*		//PRINTS OUT THE MAP TO TEST
+		//PRINTS OUT THE MAP TO TEST
 		cout << "\ntest print: " << endl;
 
 		cout << "word: " << temp << endl;
@@ -226,7 +227,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 			}
 			cout << endl;
 		}
-*/
+
 
 		//resets node map to initial state, so the dices
 		//don't need to be re-read
@@ -261,7 +262,7 @@ int Graph::BFS(int source){
 	//BFS queue
 	list<int> queue;
 
-	//path vector
+	//backedge path vector
 	vector<int> path;
 
 
@@ -280,8 +281,6 @@ int Graph::BFS(int source){
 		//displays BFS traversal
 //		cout << source << " ";
 
-		//adds this path to the path vector
-		path.push_back(source);
 
 		queue.pop_front();
 
@@ -292,8 +291,14 @@ int Graph::BFS(int source){
 			if(!visited.at(*i)){
 
 				visited.at(*i) = true;
+
 				queue.push_back(*i);
 
+				if(find(path.begin(),path.end(),nodes.find(source)->second.id) == path.end()){
+					path.push_back(nodes.find(source)->second.id);
+					cout << "pushing " << nodes.find(source)->second.id << endl; 
+
+				}
 
 			}
 
@@ -309,7 +314,7 @@ int Graph::BFS(int source){
 	for(int i = 0;i<(path.size()-1);i++){
 
 		//erases foward edges
-//		cout << "erasing src " << path.at(i) << " to dest " << path.at(i+1) << endl;
+		//		cout << "erasing src " << path.at(i) << " to dest " << path.at(i+1) << endl;
 		nodes.find(path.at(i))->second.dests.erase(path.at(i+1));
 
 	}
@@ -317,11 +322,11 @@ int Graph::BFS(int source){
 	//creates back edges
 	for(int i = 1;i<path.size();i++){
 
-//		cout << "creating src " << path.at(i) << " to dest " << path.at(i-1) << endl;
+		//		cout << "creating src " << path.at(i) << " to dest " << path.at(i-1) << endl;
 		nodes.find(path.at(i))->second.dests.insert(path.at(i-1));
 
 	}
-
+	cout << endl;
 	return 0;
 
 }
