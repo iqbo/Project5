@@ -179,7 +179,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 			nodes.find(i)->second.dests.insert(sink.id);
 
 		}
-
+/*
 		//PRINTS OUT THE MAP TO TEST
 		cout << "\ntest print: " << endl;
 
@@ -194,7 +194,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 			}
 			cout << endl;
 		}
-
+*/
 		//holds initial state of nodemap
 		initState = nodes;
 
@@ -203,12 +203,16 @@ Graph::Graph(ifstream &dice, ifstream &word){
 		while(true){
 			result = BFS(0);
 			if(result == -1){
-				cout << "no more paths!" << endl;
+//				cout << "no more paths!" << endl;
+				if(nodes.end()->second.dests.size()==temp.size())
+					cout << temp << "  can be spelled!" << endl;
+				else
+					cout << "Cannot spell " << temp << endl;
 				break;
 			}
 		}
 
-		//PRINTS OUT THE MAP TO TEST
+/*		//PRINTS OUT THE MAP TO TEST
 		cout << "\ntest print: " << endl;
 
 		cout << "word: " << temp << endl;
@@ -222,7 +226,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 			}
 			cout << endl;
 		}
-
+*/
 
 		//resets node map to initial state, so the dices
 		//don't need to be re-read
@@ -272,7 +276,9 @@ int Graph::BFS(int source){
 
 		source = queue.front();
 
-		cout << source << " ";
+
+		//displays BFS traversal
+//		cout << source << " ";
 
 		//adds this path to the path vector
 		path.push_back(source);
@@ -287,12 +293,6 @@ int Graph::BFS(int source){
 
 				visited.at(*i) = true;
 				queue.push_back(*i);
-
-
-				/*				//checks if sink has been added to the queue
-								if(*i == nodes.size()-1)
-								cout << "SINK ADDED!!!!!" << endl;
-								*/	
 
 
 			}
