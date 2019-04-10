@@ -272,7 +272,6 @@ void Graph::BFS(int source){
 
 				visited.at(*i) = true;
 				queue.push_back(*i);
-
 			}
 
 		}
