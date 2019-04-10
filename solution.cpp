@@ -1,5 +1,7 @@
 /*Omar Iqbal
  *cs302 Project 5
+ * determines if a set of words
+ * can be spelled with a set of dice
  *
  */
 
