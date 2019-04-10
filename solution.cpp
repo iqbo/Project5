@@ -34,7 +34,7 @@ class Graph {
 		int numOfDice;
 		int numOfLetters;
 
-		void BFS(int);
+		int BFS(int);
 
 
 };
@@ -66,6 +66,7 @@ int main(int argc, char** argv){
 
 Graph::Graph(ifstream &dice, ifstream &word){
 
+	map<int,Node> initState;
 
 	//holds dice data
 	string diceTemp = "";
@@ -194,8 +195,23 @@ Graph::Graph(ifstream &dice, ifstream &word){
 			cout << endl;
 		}
 
-	while(true)
-		BFS(0);
+		//holds initial state of nodemap
+		initState = nodes;
+
+
+		int result;
+		while(true){
+			result = BFS(0);
+			if(result == -1){
+				cout << "no more paths!" << endl;
+				break;
+			}
+		}
+
+
+		//resets node map to initial state, so the dices
+		//don't need to be re-read
+		nodes = initState;
 
 		//clears out word data from map
 
@@ -216,7 +232,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
  *using https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/
  *as a model*/ 
 
-void Graph::BFS(int source){
+int Graph::BFS(int source){
 
 	vector<int> visited;
 
@@ -271,6 +287,9 @@ void Graph::BFS(int source){
 
 	}
 
+	if(path.size()==1)
+		return -1;
+
 	//reverse edges down the path
 	for(int i = 0;i<(path.size()-1);i++){
 
@@ -288,5 +307,6 @@ void Graph::BFS(int source){
 
 	}
 
+	return 0;
 
 }
