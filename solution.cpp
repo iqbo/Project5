@@ -81,6 +81,13 @@ Graph::Graph(ifstream &dice, ifstream &word){
 	set<int>::iterator ss;
 
 
+	//holds all dice characters
+	//to make sure it has all the
+	//required letters
+	string diceChars = "";
+	
+
+
 	//creates Source Node
 	Node source;
 	source.id = 0;
@@ -101,6 +108,10 @@ Graph::Graph(ifstream &dice, ifstream &word){
 		diceNode.id = counter;
 		diceNode.data = diceTemp;
 
+		//inserts into diceChars
+		for(int i = 0;i<diceTemp.size();i++)
+			diceChars.push_back(diceTemp.at(i));
+
 		//creates nodes in the graph for the dice
 		nodes.insert(make_pair(counter,diceNode));
 
@@ -113,8 +124,26 @@ Graph::Graph(ifstream &dice, ifstream &word){
 	//sets number of dice
 	numOfDice = counter;
 
+	int flag = 0;
+
 
 	while(word >> temp){
+
+		flag = 0;
+
+		cout << "here" << endl;
+		for(int i = 0;i<temp.size();i++){
+			
+			if(find(diceChars.begin(),diceChars.end(),temp.at(i)) == diceChars.end()){
+				cout << "Cannot spell " << temp << endl;
+			flag = 1;
+			break;
+			}
+
+		}
+
+	if(flag == 1)
+		continue;
 
 		//resets counter to be used for numOfLetters
 		counter = 0;
@@ -314,7 +343,7 @@ int Graph::BFS(int source){
 	for(int i = 0;i<(path.size()-1);i++){
 
 		//erases foward edges
-		//		cout << "erasing src " << path.at(i) << " to dest " << path.at(i+1) << endl;
+				cout << "erasing src " << path.at(i) << " to dest " << path.at(i+1) << endl;
 		nodes.find(path.at(i))->second.dests.erase(path.at(i+1));
 
 	}
@@ -322,7 +351,7 @@ int Graph::BFS(int source){
 	//creates back edges
 	for(int i = 1;i<path.size();i++){
 
-		//		cout << "creating src " << path.at(i) << " to dest " << path.at(i-1) << endl;
+				cout << "creating src " << path.at(i) << " to dest " << path.at(i-1) << endl;
 		nodes.find(path.at(i))->second.dests.insert(path.at(i-1));
 
 	}
