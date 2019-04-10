@@ -7,6 +7,8 @@
 #include <fstream>
 #include <set>
 #include <map>
+#include <list>
+#include <algorithm>
 
 using namespace std;
 
@@ -31,6 +33,11 @@ class Graph {
 		Graph(ifstream&, ifstream&);
 		int numOfDice;
 		int numOfLetters;
+
+
+
+		void checkWord();
+
 };
 
 
@@ -200,4 +207,27 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 }
 
+void Graph::checkWord(){
 
+	set<int>::iterator ss;
+
+	list<int> queue;
+	list<int> backEdge;
+
+	//load each neighbor to the queue
+	if(nodes.find(0)->second.dests.size()>0){
+
+		//for each node in dests for the source node
+		for(ss = nodes.find(0)->second.dests.begin();ss!=nodes.find(0)->second.dests.end();++ss){
+
+			//push them on to the queue
+			queue.push_back(*ss);			
+
+
+		}
+
+
+
+	}
+
+}
