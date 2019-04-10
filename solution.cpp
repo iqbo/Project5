@@ -8,7 +8,6 @@
 #include <set>
 #include <map>
 #include <list>
-#include <algorithm>
 #include <vector>
 
 using namespace std;
@@ -35,9 +34,6 @@ class Graph {
 		int numOfDice;
 		int numOfLetters;
 
-
-
-		void checkWord();
 		void BFS(int);
 
 
@@ -58,6 +54,9 @@ int main(int argc, char** argv){
 
 	g1 = new Graph(diceFile,wordFile);
 
+
+
+	delete g1;
 	diceFile.close();
 	wordFile.close();
 	return 0;
@@ -195,7 +194,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 			cout << endl;
 		}
 
-
+	while(true)
 		BFS(0);
 
 		//clears out word data from map
@@ -212,34 +211,10 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 }
 
-void Graph::checkWord(){
 
-	set<int>::iterator ss;
-
-	list<int> queue;
-	list<int> backEdge;
-	list<int> visited;
-
-
-
-	//load each neighbor to the queue
-	if(nodes.find(0)->second.dests.size()>0){
-
-		//for each node in dests for the source node
-		for(ss = nodes.find(0)->second.dests.begin();ss!=nodes.find(0)->second.dests.end();++ss){
-
-			//push them on to the queue
-			queue.push_back(*ss);			
-		
-
-
-		}
-
-
-
-	}
-
-}
+/*BFS was implemented
+ *using https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/
+ *as a model*/ 
 
 void Graph::BFS(int source){
 
@@ -250,6 +225,12 @@ void Graph::BFS(int source){
 
 	//BFS queue
 	list<int> queue;
+
+	//path vector
+	vector<int> path;
+
+
+
 
 	visited.at(source) = true;
 	queue.push_back(source);
@@ -262,6 +243,9 @@ void Graph::BFS(int source){
 
 		cout << source << " ";
 
+		//adds this path to the path vector
+		path.push_back(source);
+
 		queue.pop_front();
 
 
@@ -272,10 +256,35 @@ void Graph::BFS(int source){
 
 				visited.at(*i) = true;
 				queue.push_back(*i);
+
+
+				/*				//checks if sink has been added to the queue
+								if(*i == nodes.size()-1)
+								cout << "SINK ADDED!!!!!" << endl;
+								*/	
+
+
 			}
 
 		}
 
+
+	}
+
+	//reverse edges down the path
+	for(int i = 0;i<(path.size()-1);i++){
+
+		//erases foward edges
+		cout << "erasing src " << path.at(i) << " to dest " << path.at(i+1) << endl;
+		nodes.find(path.at(i))->second.dests.erase(path.at(i+1));
+
+	}
+
+	//creates back edges
+	for(int i = 1;i<path.size();i++){
+
+		cout << "creating src " << path.at(i) << " to dest " << path.at(i-1) << endl;
+		nodes.find(path.at(i))->second.dests.insert(path.at(i-1));
 
 	}
 
