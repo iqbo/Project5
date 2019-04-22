@@ -331,7 +331,7 @@ int Graph::BFS(int source){
 		//displays BFS traversal
 		cout << source << " ";
 
-
+		queue.pop_front();
 
 
 		//gets destination nodes
@@ -343,7 +343,6 @@ int Graph::BFS(int source){
 
 				queue.push_back(*i);
 
-
 				//quits if the sink is added to the queue
 				if(*i == nodes.find(nodes.size()-1)->second.id){
 
@@ -353,10 +352,7 @@ int Graph::BFS(int source){
 
 					break;
 
-
 				}
-
-
 
 
 			}
@@ -364,15 +360,11 @@ int Graph::BFS(int source){
 		}
 
 
-
-		queue.pop_front();
-
 		//sink added to queue
 		if(sinkFound==1)
-			break;
+			return 0;
 
 	}
-	
 
 	return -1;
 
