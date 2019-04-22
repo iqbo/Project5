@@ -369,6 +369,11 @@ int Graph::BFS(int source){
 
 				queue.push_back(*i);
 
+
+
+
+
+
 				//should set the node's backedge
 				nodes.find(*i)->second.backedge = source;
 
@@ -386,6 +391,22 @@ int Graph::BFS(int source){
 
 
 			}
+
+			//if this dice has less destination nodes...
+			else if(nodes.find(source)->second.dests.size() < nodes.find(nodes.find(*i)->second.backedge)->second.dests.size()){
+					cout << "ayylma0";
+				
+				nodes.find(*i)->second.backedge = source;
+
+				if(*i == nodes.find(nodes.size()-1)->second.id){
+
+					sinkFound = 1;
+
+					break;
+
+				}
+			}
+
 
 		}
 
