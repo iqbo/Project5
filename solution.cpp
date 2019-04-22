@@ -220,7 +220,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 		}
 
-		//PRINTS OUT THE MAP TO TEST
+/*		//PRINTS OUT THE MAP TO TEST
 		cout << "\ntest print: " << endl;
 
 		cout << "word: " << temp << endl;
@@ -234,11 +234,12 @@ Graph::Graph(ifstream &dice, ifstream &word){
 			}
 			cout << endl;
 		}
-
+*/
 		//holds initial state of nodemap
 		initState = nodes;
 
 
+		int numOfIncomingEdges;
 		int result;
 
 	
@@ -251,8 +252,16 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 			//if result ==-1, there are no more paths
 			if(result == -1){
-				cout << "no more paths!" << endl;
+//				cout << "no more paths!" << endl;
 
+
+	
+		 numOfIncomingEdges = ((numOfDice -1)- nodes.begin()->second.dests.size());
+//		cout << "# of incoming edges to source: " << numOfIncomingEdges<< endl;
+		if(numOfIncomingEdges != numOfLetters)
+			cout << "Cannot spell " << temp << endl;
+		else
+			cout << "WORKS!!!!1!!!!!11" << "(" << temp << ")" <<  endl;
 /*				if(nodes.end()->second.dests.size()==temp.size())
 					cout << temp << "  can be spelled!" << endl;
 				else
@@ -263,7 +272,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 
 		}
-
+/*
 		//PRINTS OUT THE MAP TO TEST
 		cout << "\ntest print: " << endl;
 
@@ -278,7 +287,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 			}
 			cout << endl;
 		}
-
+*/
 
 		//resets node map to initial state, so the dices
 		//don't need to be re-read
@@ -330,7 +339,7 @@ int Graph::BFS(int source){
 
 
 		//displays BFS traversal
-		cout << source << " ";
+//		cout << source << " ";
 
 		queue.pop_front();
 
@@ -351,7 +360,7 @@ int Graph::BFS(int source){
 				//quits if the sink is added to the queue
 				if(*i == nodes.find(nodes.size()-1)->second.id){
 
-					cout << "Sink added" << endl;
+//					cout << "Sink added" << endl;
 
 					sinkFound = 1;
 
@@ -374,9 +383,8 @@ int Graph::BFS(int source){
 
 	if(sinkFound==0){
 
-		cout << "sink never found!" << endl;
+//		cout << "sink never found!" << endl;
 
-		cout << "# of incoming edges to source: " << ((numOfDice -1)- nodes.begin()->second.dests.size()) << endl;
 
 		return -1;
 
@@ -392,7 +400,7 @@ int Graph::BFS(int source){
 	b3 = nodes.find(b2)->second.backedge;
 
 		//start at sink
-		cout << "T -> " << b1 << " -> " << b2 << " -> " << b3 << endl;
+//		cout << "T -> " << b1 << " -> " << b2 << " -> " << b3 << endl;
 
 
 		//reverses sink edge
