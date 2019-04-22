@@ -261,21 +261,6 @@ Graph::Graph(ifstream &dice, ifstream &word){
 			}
 
 
-		//PRINTS OUT THE MAP TO TEST
-		cout << "\ntest print: " << endl;
-
-		cout << "word: " << temp << endl;
-
-		for(ms = nodes.begin();ms!=nodes.end();++ms){
-
-			cout << "key: " << ms->first << " , NodeIds: ";
-			for(ss = ms->second.dests.begin();ss!=ms->second.dests.end();++ss){
-
-				cout << *ss << "(" << nodes.find(*ss)->second.data << ")";
-			}
-			cout << endl;
-		}
-
 
 		}
 
@@ -390,6 +375,9 @@ int Graph::BFS(int source){
 	if(sinkFound==0){
 
 		cout << "sink never found!" << endl;
+
+		cout << "# of incoming edges to source: " << ((numOfDice -1)- nodes.begin()->second.dests.size()) << endl;
+
 		return -1;
 
 	}
