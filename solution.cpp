@@ -23,7 +23,9 @@ class Node {
 		string data;
 		set<int> dests;
 
-		set<int> backedges;
+
+		int backedge;
+
 
 };
 
@@ -112,8 +114,6 @@ Graph::Graph(ifstream &dice, ifstream &word){
 		diceNode.id = counter;
 		diceNode.data = diceTemp;
 
-		//sets dice backedges to source
-		diceNode.backedges.insert(0);
 
 
 		//inserts into diceChars
@@ -188,8 +188,6 @@ Graph::Graph(ifstream &dice, ifstream &word){
 						nodes.find(*ss)->second.dests.insert(numOfDice+j);
 						
 
-						//sets backedge of letter dice to its parent dice
-						n.backedges.insert(nodes.find(*ss)->second.id);
 
 					}
 
@@ -343,6 +341,10 @@ int Graph::BFS(int source){
 
 				queue.push_back(*i);
 
+				//should set the node's backedge
+				nodes.find(*i)->second.backedge = source;
+
+
 				//quits if the sink is added to the queue
 				if(*i == nodes.find(nodes.size()-1)->second.id){
 
@@ -378,8 +380,6 @@ int Graph::BFS(int source){
 	b3 = nodes.find(b2)->second.backedge;
 
 		//start at sink
-		
-	cout << "b1 id = " << nodes.find(nodes.size()-1)->second.id << endl;
 		cout << "T -> " << b1 << " -> " << b2 << " -> " << b3 << endl;
 
 		return 0;
