@@ -420,7 +420,6 @@ nodes.find(b2)->second.dests.erase(nodes.find(b1)->second.id);
 //erases dice die from source dests
 nodes.find(b3)->second.dests.erase(nodes.find(b2)->second.id);
 
-	cout << endl;
 	return 0;
 
 }
