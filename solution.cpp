@@ -23,6 +23,8 @@ class Node {
 		string data;
 		set<int> dests;
 
+		int backedge;
+
 };
 
 
@@ -110,6 +112,10 @@ Graph::Graph(ifstream &dice, ifstream &word){
 		diceNode.id = counter;
 		diceNode.data = diceTemp;
 
+		//sets dice backedges to source
+		diceNode.backedge = 0;
+
+
 		//inserts into diceChars
 		for(int i = 0;i<diceTemp.size();i++)
 			diceChars.push_back(diceTemp.at(i));
@@ -168,6 +174,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 						n.id = (nodes.size()+j);
 						n.data = temp.at(j);
+						
 
 						//inserts new node into map
 						nodes.insert(make_pair(numOfDice+j,n));
@@ -179,6 +186,10 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 						//inserts new node destination set
 						nodes.find(*ss)->second.dests.insert(numOfDice+j);
+						
+
+						//sets backedge of letter dice to its parent dice
+						n.backedge = nodes.find(*ss)->second.id;
 
 					}
 
@@ -231,7 +242,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 
 		int result;
-		while(true){
+/*		while(true){
 			result = BFS(0);
 
 			//if result ==-1, there are no more paths
@@ -245,7 +256,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 				break;
 			}
 		}
-
+*/
 		//PRINTS OUT THE MAP TO TEST
 		cout << "\ntest print: " << endl;
 
@@ -309,7 +320,7 @@ int Graph::BFS(int source){
 
 
 		//displays BFS traversal
-//		cout << source << " ";
+		cout << source << " ";
 
 
 		queue.pop_front();
@@ -324,10 +335,19 @@ int Graph::BFS(int source){
 
 				queue.push_back(*i);
 
-				//only pushes unique backedges onto the backedge path vector
-				if(find(path.begin(),path.end(),nodes.find(source)->second.id) == path.end()){
-					path.push_back(nodes.find(source)->second.id);
-					cout << "pushing " << nodes.find(source)->second.id << endl; 
+
+
+				//pushes backedges
+				path.push_back(nodes.find(source)->second.id);
+				cout << "pushing " << nodes.find(source)->second.id << endl; 
+
+
+
+				//quits if the sink is added to the queue
+				if(*i == nodes.end()->second.id){
+					cout << "Sink added!" << endl;
+					break;
+
 
 				}
 
@@ -341,21 +361,24 @@ int Graph::BFS(int source){
 		return -1;
 
 	//reverse edges down the path
-	for(int i = 0;i<(path.size()-1);i++){
+/*	while(true){
+
+		//BROKEN FOR NOW
 
 		//erases foward edges
-				cout << "erasing src " << path.at(i) << " to dest " << path.at(i+1) << endl;
-		nodes.find(path.at(i))->second.dests.erase(path.at(i+1));
+//		cout << "erasing src " << path.at(i) << " to dest " << path.at(i+1) << endl;
+//		nodes.find(path.at(i))->second.dests.erase(path.at(i+1));
 
-	}
 
-	//creates back edges
-	for(int i = 1;i<path.size();i++){
+		//creates back edges
+		for(int i = 1;i<path.size();i++){
 
-				cout << "creating src " << path.at(i) << " to dest " << path.at(i-1) << endl;
-		nodes.find(path.at(i))->second.dests.insert(path.at(i-1));
+			cout << "creating src " << path.at(i) << " to dest " << path.at(i-1) << endl;
+			nodes.find(path.at(i))->second.dests.insert(path.at(i-1));
 
-	}
+		}
+
+	}*/
 	cout << endl;
 	return 0;
 
