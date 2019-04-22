@@ -232,7 +232,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 			cout << "key: " << ms->first << " , NodeIds: ";
 			for(ss = ms->second.dests.begin();ss!=ms->second.dests.end();++ss){
 
-				cout << *ss << "(" << nodes.find(*ss)->second.data << ") ";
+				cout << *ss << "(" << nodes.find(*ss)->second.data << "), (backedge:  " << nodes.find(*ss)->second.backedge << ") ";
 			}
 			cout << endl;
 		}
@@ -362,19 +362,33 @@ int Graph::BFS(int source){
 
 		//sink added to queue
 		if(sinkFound==1)
-			return 0;
+			break;
 
 	}
 
-	return -1;
 
 	//reverse edges down the path
-/*	while(true){
+	while(true){
+	
+	
+		int b1, b2, b3;
+
+	b1 =  nodes.find(nodes.size()-1)->second.backedge;
+	b2 = nodes.find(b1)->second.backedge;
+	b3 = nodes.find(b2)->second.backedge;
+
+		//start at sink
+		
+	cout << "b1 id = " << nodes.find(nodes.size()-1)->second.id << endl;
+		cout << "T -> " << b1 << " -> " << b2 << " -> " << b3 << endl;
+
+		return 0;
 
 
-	}*/
+	}
 
 
+	return -1;
 
 
 	cout << endl;
