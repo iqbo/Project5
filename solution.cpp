@@ -142,6 +142,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 		for(int i = 0;i<temp.size();i++){
 
 			if(find(diceChars.begin(),diceChars.end(),temp.at(i)) == diceChars.end()){
+
 				cout << "Cannot spell " << temp << endl;
 				flag = 1;
 				break;
@@ -257,9 +258,10 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 
 				numOfIncomingEdges = ((numOfDice -1)- nodes.begin()->second.dests.size());
-				//		cout << "# of incoming edges to source: " << numOfIncomingEdges<< endl;
-				if(numOfIncomingEdges != numOfLetters)
+						cout << "# of incoming edges to source: " << numOfIncomingEdges<< endl;
+				if(numOfIncomingEdges != numOfLetters){
 					cout << "Cannot spell " << temp << endl;
+				}
 				else{
 
 					//prints out path
@@ -414,7 +416,7 @@ int Graph::BFS(int source){
 	b3 = nodes.find(b2)->second.backedge;
 
 	//start at sink
-	//		cout << "T -> " << b1 << " -> " << b2 << " -> " << b3 << endl;
+			cout << "T -> " << b1 << " -> " << b2 << " -> " << b3 << endl;
 
 
 	//reverses sink edge
