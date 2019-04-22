@@ -262,10 +262,20 @@ Graph::Graph(ifstream &dice, ifstream &word){
 			cout << "Cannot spell " << temp << endl;
 		else
 			cout << "WORKS!!!!1!!!!!11" << "(" << temp << ")" <<  endl;
-/*				if(nodes.end()->second.dests.size()==temp.size())
-					cout << temp << "  can be spelled!" << endl;
-				else
-					cout << "Cannot spell " << temp << endl;*/
+
+		//prints out path
+			
+		//goes through sink backedges
+		for(set<int>::iterator ss = nodes.find(nodes.size()-1)->second.dests.begin();ss!=nodes.find(nodes.size()-1)->second.dests.end();++ss){
+
+
+			//points to first (and only) edge in the dests
+			cout << (*(nodes.find(*ss)->second.dests.begin())-1) << " ";
+
+
+
+		}
+
 				break;
 			}
 
@@ -287,8 +297,8 @@ Graph::Graph(ifstream &dice, ifstream &word){
 			}
 			cout << endl;
 		}
-*/
 
+*/
 		//resets node map to initial state, so the dices
 		//don't need to be re-read
 		nodes = initState;
