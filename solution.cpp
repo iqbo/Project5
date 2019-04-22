@@ -258,7 +258,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 
 				numOfIncomingEdges = ((numOfDice -1)- nodes.begin()->second.dests.size());
-						cout << "# of incoming edges to source: " << numOfIncomingEdges<< endl;
+//						cout << "# of incoming edges to source: " << numOfIncomingEdges<< endl;
 				if(numOfIncomingEdges != numOfLetters){
 					cout << "Cannot spell " << temp << endl;
 				}
@@ -394,7 +394,6 @@ int Graph::BFS(int source){
 
 			//if this dice has less destination nodes...
 			else if(nodes.find(source)->second.dests.size() < nodes.find(nodes.find(*i)->second.backedge)->second.dests.size()){
-					cout << "ayylma0";
 				
 				nodes.find(*i)->second.backedge = source;
 
@@ -437,7 +436,7 @@ int Graph::BFS(int source){
 	b3 = nodes.find(b2)->second.backedge;
 
 	//start at sink
-			cout << "T -> " << b1 << " -> " << b2 << " -> " << b3 << endl;
+//			cout << "T -> " << b1 << " -> " << b2 << " -> " << b3 << endl;
 
 
 	//reverses sink edge
