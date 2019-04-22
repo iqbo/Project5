@@ -242,6 +242,12 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 
 		int result;
+
+	
+		//testing bfs
+		result = BFS(0);
+		
+
 /*		while(true){
 			result = BFS(0);
 
@@ -314,6 +320,10 @@ int Graph::BFS(int source){
 
 	set<int>::iterator i;
 
+
+	//checks if the sink has been added to the queue
+	int sinkFound = 0;
+
 	while(!queue.empty()){
 
 		source = queue.front();
@@ -346,16 +356,27 @@ int Graph::BFS(int source){
 				//quits if the sink is added to the queue
 				if(*i == nodes.end()->second.id){
 					cout << "Sink added!" << endl;
+
+					sinkFound = 1;
+
 					break;
 
 
 				}
 
+
+
+
 			}
 
 		}
 
+		//sink added to queue
+		if(sinkFound==1)
+			break;
+
 	}
+	
 
 	if(path.size()==1)
 		return -1;
@@ -379,6 +400,10 @@ int Graph::BFS(int source){
 		}
 
 	}*/
+
+
+
+
 	cout << endl;
 	return 0;
 
