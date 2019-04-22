@@ -23,7 +23,7 @@ class Node {
 		string data;
 		set<int> dests;
 
-		int backedge;
+		set<int> backedges;
 
 };
 
@@ -113,7 +113,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 		diceNode.data = diceTemp;
 
 		//sets dice backedges to source
-		diceNode.backedge = 0;
+		diceNode.backedges.insert(0);
 
 
 		//inserts into diceChars
@@ -189,7 +189,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 						
 
 						//sets backedge of letter dice to its parent dice
-						n.backedge = nodes.find(*ss)->second.id;
+						n.backedges.insert(nodes.find(*ss)->second.id);
 
 					}
 
@@ -232,7 +232,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 			cout << "key: " << ms->first << " , NodeIds: ";
 			for(ss = ms->second.dests.begin();ss!=ms->second.dests.end();++ss){
 
-				cout << *ss << "(" << nodes.find(*ss)->second.data << "), (backedge:  " << nodes.find(*ss)->second.backedge << ") ";
+				cout << *ss << "(" << nodes.find(*ss)->second.data << ")";
 			}
 			cout << endl;
 		}
