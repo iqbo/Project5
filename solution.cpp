@@ -243,24 +243,42 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 	
 		//testing bfs
-		result = BFS(0);
+//		result = BFS(0);
 		
 
-/*		while(true){
+		while(true){
 			result = BFS(0);
 
 			//if result ==-1, there are no more paths
 			if(result == -1){
-//				cout << "no more paths!" << endl;
+				cout << "no more paths!" << endl;
 
-				if(nodes.end()->second.dests.size()==temp.size())
+/*				if(nodes.end()->second.dests.size()==temp.size())
 					cout << temp << "  can be spelled!" << endl;
 				else
-					cout << "Cannot spell " << temp << endl;
+					cout << "Cannot spell " << temp << endl;*/
 				break;
 			}
+
+
+		//PRINTS OUT THE MAP TO TEST
+		cout << "\ntest print: " << endl;
+
+		cout << "word: " << temp << endl;
+
+		for(ms = nodes.begin();ms!=nodes.end();++ms){
+
+			cout << "key: " << ms->first << " , NodeIds: ";
+			for(ss = ms->second.dests.begin();ss!=ms->second.dests.end();++ss){
+
+				cout << *ss << "(" << nodes.find(*ss)->second.data << ")";
+			}
+			cout << endl;
 		}
-*/
+
+
+		}
+
 		//PRINTS OUT THE MAP TO TEST
 		cout << "\ntest print: " << endl;
 
@@ -369,8 +387,14 @@ int Graph::BFS(int source){
 	}
 
 
+	if(sinkFound==0){
+
+		cout << "sink never found!" << endl;
+		return -1;
+
+	}
+
 	//reverse edges down the path
-	while(true){
 	
 	
 		int b1, b2, b3;
@@ -382,14 +406,23 @@ int Graph::BFS(int source){
 		//start at sink
 		cout << "T -> " << b1 << " -> " << b2 << " -> " << b3 << endl;
 
-		return 0;
+
+		//reverses sink edge
+nodes.find(nodes.size()-1)->second.dests.insert(b1);
+nodes.find(b1)->second.dests.insert(b2);
+nodes.find(b2)->second.dests.insert(b3);
 
 
-	}
+//ERASE stuff from dests node!
 
+//erases sink from b1 dests
+nodes.find(b1)->second.dests.erase(nodes.find(nodes.size()-1)->second.id);
 
-	return -1;
+//erases letter die from dice dests
+nodes.find(b2)->second.dests.erase(nodes.find(b1)->second.id);
 
+//erases dice die from source dests
+nodes.find(b3)->second.dests.erase(nodes.find(b2)->second.id);
 
 	cout << endl;
 	return 0;
