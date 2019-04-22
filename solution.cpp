@@ -91,7 +91,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 	//to make sure it has all the
 	//required letters
 	string diceChars = "";
-	
+
 
 
 	//creates Source Node
@@ -140,17 +140,17 @@ Graph::Graph(ifstream &dice, ifstream &word){
 		flag = 0;
 
 		for(int i = 0;i<temp.size();i++){
-			
+
 			if(find(diceChars.begin(),diceChars.end(),temp.at(i)) == diceChars.end()){
 				cout << "Cannot spell " << temp << endl;
-			flag = 1;
-			break;
+				flag = 1;
+				break;
 			}
 
 		}
 
-	if(flag == 1)
-		continue;
+		if(flag == 1)
+			continue;
 
 		//resets counter to be used for numOfLetters
 		counter = 0;
@@ -174,7 +174,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 						n.id = (nodes.size()+j);
 						n.data = temp.at(j);
-						
+
 
 						//inserts new node into map
 						nodes.insert(make_pair(numOfDice+j,n));
@@ -186,7 +186,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 						//inserts new node destination set
 						nodes.find(*ss)->second.dests.insert(numOfDice+j);
-						
+
 
 
 					}
@@ -220,21 +220,21 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 		}
 
-/*		//PRINTS OUT THE MAP TO TEST
-		cout << "\ntest print: " << endl;
+		/*		//PRINTS OUT THE MAP TO TEST
+				cout << "\ntest print: " << endl;
 
-		cout << "word: " << temp << endl;
+				cout << "word: " << temp << endl;
 
-		for(ms = nodes.begin();ms!=nodes.end();++ms){
+				for(ms = nodes.begin();ms!=nodes.end();++ms){
 
-			cout << "key: " << ms->first << " , NodeIds: ";
-			for(ss = ms->second.dests.begin();ss!=ms->second.dests.end();++ss){
+				cout << "key: " << ms->first << " , NodeIds: ";
+				for(ss = ms->second.dests.begin();ss!=ms->second.dests.end();++ss){
 
 				cout << *ss << "(" << nodes.find(*ss)->second.data << ")";
-			}
-			cout << endl;
-		}
-*/
+				}
+				cout << endl;
+				}
+				*/
 		//holds initial state of nodemap
 		initState = nodes;
 
@@ -242,47 +242,51 @@ Graph::Graph(ifstream &dice, ifstream &word){
 		int numOfIncomingEdges;
 		int result;
 
-	
+
 		//testing bfs
-//		result = BFS(0);
-		
+		//		result = BFS(0);
+
 
 		while(true){
 			result = BFS(0);
 
 			//if result ==-1, there are no more paths
 			if(result == -1){
-//				cout << "no more paths!" << endl;
-
-
-	
-		 numOfIncomingEdges = ((numOfDice -1)- nodes.begin()->second.dests.size());
-//		cout << "# of incoming edges to source: " << numOfIncomingEdges<< endl;
-		if(numOfIncomingEdges != numOfLetters)
-			cout << "Cannot spell " << temp << endl;
-		else
-			cout << "WORKS!!!!1!!!!!11" << "(" << temp << ")" <<  endl;
-
-		//prints out path
-			
-		//goes through sink backedges
-		for(set<int>::iterator ss = nodes.find(nodes.size()-1)->second.dests.begin();ss!=nodes.find(nodes.size()-1)->second.dests.end();++ss){
-
-
-			//points to first (and only) edge in the dests
-			cout << (*(nodes.find(*ss)->second.dests.begin())-1) << " ";
+				//				cout << "no more paths!" << endl;
 
 
 
-		}
+				numOfIncomingEdges = ((numOfDice -1)- nodes.begin()->second.dests.size());
+				//		cout << "# of incoming edges to source: " << numOfIncomingEdges<< endl;
+				if(numOfIncomingEdges != numOfLetters)
+					cout << "Cannot spell " << temp << endl;
+				else{
 
+					//prints out path
+
+					//goes through sink backedges
+					for(set<int>::iterator ss = nodes.find(nodes.size()-1)->second.dests.begin();ss!=nodes.find(nodes.size()-1)->second.dests.end();++ss){
+
+
+				if(ss != nodes.find(nodes.size()-1)->second.dests.begin())
+					cout << ","; 
+
+						//points to first (and only) edge in the dests
+						cout << (*(nodes.find(*ss)->second.dests.begin())-1);
+
+
+
+					}
+
+					cout << ": " << temp << endl;
+				}
 				break;
 			}
 
 
 
 		}
-/*
+		/*
 		//PRINTS OUT THE MAP TO TEST
 		cout << "\ntest print: " << endl;
 
@@ -290,12 +294,12 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 		for(ms = nodes.begin();ms!=nodes.end();++ms){
 
-			cout << "key: " << ms->first << " , NodeIds: ";
-			for(ss = ms->second.dests.begin();ss!=ms->second.dests.end();++ss){
+		cout << "key: " << ms->first << " , NodeIds: ";
+		for(ss = ms->second.dests.begin();ss!=ms->second.dests.end();++ss){
 
-				cout << *ss << "(" << nodes.find(*ss)->second.data << ") ";
-			}
-			cout << endl;
+		cout << *ss << "(" << nodes.find(*ss)->second.data << ") ";
+		}
+		cout << endl;
 		}
 
 */
@@ -349,7 +353,7 @@ int Graph::BFS(int source){
 
 
 		//displays BFS traversal
-//		cout << source << " ";
+		//		cout << source << " ";
 
 		queue.pop_front();
 
@@ -370,7 +374,7 @@ int Graph::BFS(int source){
 				//quits if the sink is added to the queue
 				if(*i == nodes.find(nodes.size()-1)->second.id){
 
-//					cout << "Sink added" << endl;
+					//					cout << "Sink added" << endl;
 
 					sinkFound = 1;
 
@@ -393,7 +397,7 @@ int Graph::BFS(int source){
 
 	if(sinkFound==0){
 
-//		cout << "sink never found!" << endl;
+		//		cout << "sink never found!" << endl;
 
 
 		return -1;
@@ -401,34 +405,34 @@ int Graph::BFS(int source){
 	}
 
 	//reverse edges down the path
-	
-	
-		int b1, b2, b3;
+
+
+	int b1, b2, b3;
 
 	b1 =  nodes.find(nodes.size()-1)->second.backedge;
 	b2 = nodes.find(b1)->second.backedge;
 	b3 = nodes.find(b2)->second.backedge;
 
-		//start at sink
-//		cout << "T -> " << b1 << " -> " << b2 << " -> " << b3 << endl;
+	//start at sink
+	//		cout << "T -> " << b1 << " -> " << b2 << " -> " << b3 << endl;
 
 
-		//reverses sink edge
-nodes.find(nodes.size()-1)->second.dests.insert(b1);
-nodes.find(b1)->second.dests.insert(b2);
-nodes.find(b2)->second.dests.insert(b3);
+	//reverses sink edge
+	nodes.find(nodes.size()-1)->second.dests.insert(b1);
+	nodes.find(b1)->second.dests.insert(b2);
+	nodes.find(b2)->second.dests.insert(b3);
 
 
-//ERASE stuff from dests node!
+	//ERASE stuff from dests node!
 
-//erases sink from b1 dests
-nodes.find(b1)->second.dests.erase(nodes.find(nodes.size()-1)->second.id);
+	//erases sink from b1 dests
+	nodes.find(b1)->second.dests.erase(nodes.find(nodes.size()-1)->second.id);
 
-//erases letter die from dice dests
-nodes.find(b2)->second.dests.erase(nodes.find(b1)->second.id);
+	//erases letter die from dice dests
+	nodes.find(b2)->second.dests.erase(nodes.find(b1)->second.id);
 
-//erases dice die from source dests
-nodes.find(b3)->second.dests.erase(nodes.find(b2)->second.id);
+	//erases dice die from source dests
+	nodes.find(b3)->second.dests.erase(nodes.find(b2)->second.id);
 
 	return 0;
 
