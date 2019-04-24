@@ -252,7 +252,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 			result = BFS(0);
 
 			//PRINTS OUT THE MAP TO TEST
-/*		cout << "\ntest print: " << endl;
+		cout << "\ntest print: " << endl;
 
 		cout << "word: " << temp << endl;
 
@@ -265,7 +265,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 		}
 		cout << endl;
 		}
-*/
+
 
 
 		//if result ==-1, there are no more paths
@@ -347,6 +347,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 int Graph::BFS(int source){
 
+cout << endl;
 	vector<int> visited;
 
 	//All nodes are unvisited
@@ -386,7 +387,7 @@ int Graph::BFS(int source){
 				queue.push_back(*i);
 
 
-		//	cout << *i << " ";
+			cout << *i << " ";
 
 				//should set the node's backedge
 				nodes.find(*i)->second.backedge = source;
@@ -441,38 +442,28 @@ int Graph::BFS(int source){
 
 	//reverse edges down the path
 
-/*
+
 	int b1, b2, b3;
 
 	b1 =  nodes.find(nodes.size()-1)->second.backedge;
 	b2 = nodes.find(b1)->second.backedge;
 	b3 = nodes.find(b2)->second.backedge;
-*/
 
 
-		int counter = nodes.size()-1;
-//		cout << "T -> ";
-	while(true){
+
+	while(i!=0){
 	
-		int b = nodes.find(counter)->second.backedge;
+		int i = nodes.size()-1;
+
+		int b = nodes.find(i)->second.backedge;
 	
-//		cout << "back edge of " << counter << " is apparantly " << nodes.find(counter)->second.backedge << endl;
-
-
 		//create edge going back
-		nodes.find(counter)->second.dests.insert(b);
-//			cout << "creating edge from " << counter << " to " << b << endl;
-
-		//delete edge coming towards this one
-		nodes.find(b)->second.dests.erase(counter);
+		nodes.find(i)->second.dests.insert(b);
 	
-//		cout << b << " -> ";
-
-		
-		counter = b;
-
-		if(counter==0)
-			break;
+		//delete edge coming towards this one
+		nodes.find(b)->second.dests.erase(i);
+	
+		i--;
 
 	}
 
@@ -484,14 +475,14 @@ int Graph::BFS(int source){
 
 
 	//start at sink
-			//cout << "T -> " << b1 << " -> " << b2 << " -> " << b3 << endl;
+			cout << "T -> " << b1 << " -> " << b2 << " -> " << b3 << endl;
 
 
 
 
 
 
-/*
+
 
 	//reverses sink edge
 	nodes.find(nodes.size()-1)->second.dests.insert(b1);
@@ -509,7 +500,7 @@ int Graph::BFS(int source){
 
 	//erases dice die from source dests
 	nodes.find(b3)->second.dests.erase(nodes.find(b2)->second.id);
-*/
+
 	return 0;
 
 }
