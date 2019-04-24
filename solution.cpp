@@ -3,6 +3,8 @@
  * determines if a set of words
  * can be spelled with a set of dice
  *
+ * (This is the Project that I have Redone)
+ *
  */
 
 #include <iostream>
@@ -20,18 +22,19 @@ class Node {
 	public:
 		// id of that node
 		int id;
+
+		//string data of the node
 		string data;
+
+		//outgoing edges
 		set<int> dests;
 
-
+		//id of the backedge node
 		int backedge;
-
 
 };
 
-
 class Graph {
-
 
 	public:
 		map<int,Node > nodes;
@@ -58,16 +61,12 @@ int main(int argc, char** argv){
 
 	Graph *g1;
 
-
 	g1 = new Graph(diceFile,wordFile);
-
-
 
 	delete g1;
 	diceFile.close();
 	wordFile.close();
 	return 0;
-
 }
 
 
@@ -82,17 +81,21 @@ Graph::Graph(ifstream &dice, ifstream &word){
 	string temp = "";
 
 
+	//holds # of the Source's incoming edges
+	int numOfIncomingEdges;
+
+	//holds result of bfs
+	int result;
+
+
 	//nodes and dest iterators
 	map<int,Node >::iterator ms;
 	set<int>::iterator ss;
-
 
 	//holds all dice characters
 	//to make sure it has all the
 	//required letters
 	string diceChars = "";
-
-
 
 	//creates Source Node
 	Node source;
@@ -114,8 +117,6 @@ Graph::Graph(ifstream &dice, ifstream &word){
 		diceNode.id = counter;
 		diceNode.data = diceTemp;
 
-
-
 		//inserts into diceChars
 		for(int i = 0;i<diceTemp.size();i++)
 			diceChars.push_back(diceTemp.at(i));
@@ -132,11 +133,10 @@ Graph::Graph(ifstream &dice, ifstream &word){
 	//sets number of dice
 	numOfDice = counter;
 
+	//ensures each word in the Words file is read
 	int flag = 0;
 
-
 	while(word >> temp){
-
 		flag = 0;
 
 		for(int i = 0;i<temp.size();i++){
@@ -176,7 +176,6 @@ Graph::Graph(ifstream &dice, ifstream &word){
 						n.id = (nodes.size()+j);
 						n.data = temp.at(j);
 
-
 						//inserts new node into map
 						nodes.insert(make_pair(numOfDice+j,n));
 						counter++;	
@@ -188,8 +187,6 @@ Graph::Graph(ifstream &dice, ifstream &word){
 						//inserts new node destination set
 						nodes.find(*ss)->second.dests.insert(numOfDice+j);
 
-
-
 					}
 
 				}
@@ -200,7 +197,6 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 		//sets number of letters
 		numOfLetters = counter;
-		//	cout << "# of letters in word: " << numOfLetters << endl;
 
 		//adds sink node
 		Node sink;
@@ -209,13 +205,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 		nodes.insert(make_pair((sink.id),sink));
 
-		//cout << "current size of map: " << nodes.size() << endl;
-
 		for(int i = numOfDice;i<sink.id;i++){
-
-			//		cout << "sink.id currently = " << sink.id << endl;
-			//		cout << "# of letters: " << numOfLetters << endl;
-
 
 			nodes.find(i)->second.dests.insert(sink.id);
 
@@ -236,64 +226,29 @@ Graph::Graph(ifstream &dice, ifstream &word){
 				cout << endl;
 				}
 				*/
+
 		//holds initial state of nodemap
 		initState = nodes;
-
-
-		int numOfIncomingEdges;
-		int result;
-
-
-		//testing bfs
-		//		result = BFS(0);
-
-
 		while(true){
 			result = BFS(0);
 
-			//PRINTS OUT THE MAP TO TEST
-/*		cout << "\ntest print: " << endl;
-
-		cout << "word: " << temp << endl;
-
-		for(ms = nodes.begin();ms!=nodes.end();++ms){
-
-		cout << "key: " << ms->first << " , NodeIds: ";
-		for(ss = ms->second.dests.begin();ss!=ms->second.dests.end();++ss){
-
-		cout << *ss << "(" << nodes.find(*ss)->second.data << ") ";
-		}
-		cout << endl;
-		}
-*/
-
-
-		//if result ==-1, there are no more paths
+			//if result ==-1, there are no more paths
 			if(result == -1){
-				//				cout << "no more paths!" << endl;
-
-
 
 				numOfIncomingEdges = ((numOfDice -1)- nodes.begin()->second.dests.size());
-//						cout << "# of incoming edges to source: " << numOfIncomingEdges<< endl;
 				if(numOfIncomingEdges != numOfLetters){
 					cout << "Cannot spell " << temp << endl;
 				}
 				else{
 
-					//prints out path
-
 					//goes through sink backedges
 					for(set<int>::iterator ss = nodes.find(nodes.size()-1)->second.dests.begin();ss!=nodes.find(nodes.size()-1)->second.dests.end();++ss){
 
-
-				if(ss != nodes.find(nodes.size()-1)->second.dests.begin())
-					cout << ","; 
+						if(ss != nodes.find(nodes.size()-1)->second.dests.begin())
+							cout << ","; 
 
 						//points to first (and only) edge in the dests
 						cout << (*(nodes.find(*ss)->second.dests.begin())-1);
-
-
 
 					}
 
@@ -305,23 +260,7 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 
 		}
-		/*
-		//PRINTS OUT THE MAP TO TEST
-		cout << "\ntest print: " << endl;
 
-		cout << "word: " << temp << endl;
-
-		for(ms = nodes.begin();ms!=nodes.end();++ms){
-
-		cout << "key: " << ms->first << " , NodeIds: ";
-		for(ss = ms->second.dests.begin();ss!=ms->second.dests.end();++ss){
-
-		cout << *ss << "(" << nodes.find(*ss)->second.data << ") ";
-		}
-		cout << endl;
-		}
-
-*/
 		//resets node map to initial state, so the dices
 		//don't need to be re-read
 		nodes = initState;
@@ -337,16 +276,13 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 	}
 
-
 }
 
 
 /*BFS was implemented
  *using https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/
  *as a model*/ 
-
 int Graph::BFS(int source){
-
 	vector<int> visited;
 
 	//All nodes are unvisited
@@ -355,12 +291,10 @@ int Graph::BFS(int source){
 	//BFS queue
 	list<int> queue;
 
-
 	visited.at(source) = true;
 	queue.push_back(source);
 
 	set<int>::iterator i;
-
 
 	//checks if the sink has been added to the queue
 	int sinkFound = 0;
@@ -369,12 +303,8 @@ int Graph::BFS(int source){
 
 		source = queue.front();
 
-
 		//displays BFS traversal
-		//		cout << source << " ";
-
 		queue.pop_front();
-
 
 		//gets destination nodes
 		for(i = nodes.find(source)->second.dests.begin();i!=nodes.find(source)->second.dests.end();++i){
@@ -385,43 +315,19 @@ int Graph::BFS(int source){
 
 				queue.push_back(*i);
 
-
-		//	cout << *i << " ";
-
 				//should set the node's backedge
 				nodes.find(*i)->second.backedge = source;
 
-
 				//quits if the sink is added to the queue
 				if(*i == nodes.find(nodes.size()-1)->second.id){
-
-					//					cout << "Sink added" << endl;
-
 					sinkFound = 1;
 
 					break;
-
 				}
 
 
 			}
-			//if this dice has less destination nodes...
-/*			else if(nodes.find(source)->second.dests.size() < nodes.find(nodes.find(*i)->second.backedge)->second.dests.size()){
-				
-				nodes.find(*i)->second.backedge = source;
-
-				if(*i == nodes.find(nodes.size()-1)->second.id){
-
-					sinkFound = 1;
-
-					break;
-
-				}
-			}*/
-
-
 		}
-
 
 		//sink added to queue
 		if(sinkFound==1)
@@ -430,45 +336,23 @@ int Graph::BFS(int source){
 	}
 
 
-	if(sinkFound==0){
-
-		//		cout << "sink never found!" << endl;
-
-
+	if(sinkFound==0)
 		return -1;
 
-	}
 
 	//reverse edges down the path
+	int counter = nodes.size()-1;
 
-/*
-	int b1, b2, b3;
-
-	b1 =  nodes.find(nodes.size()-1)->second.backedge;
-	b2 = nodes.find(b1)->second.backedge;
-	b3 = nodes.find(b2)->second.backedge;
-*/
-
-
-		int counter = nodes.size()-1;
-//		cout << "T -> ";
 	while(true){
-	
-		int b = nodes.find(counter)->second.backedge;
-	
-//		cout << "back edge of " << counter << " is apparantly " << nodes.find(counter)->second.backedge << endl;
 
+		int b = nodes.find(counter)->second.backedge;
 
 		//create edge going back
 		nodes.find(counter)->second.dests.insert(b);
-//			cout << "creating edge from " << counter << " to " << b << endl;
 
 		//delete edge coming towards this one
 		nodes.find(b)->second.dests.erase(counter);
-	
-//		cout << b << " -> ";
 
-		
 		counter = b;
 
 		if(counter==0)
@@ -476,40 +360,6 @@ int Graph::BFS(int source){
 
 	}
 
-
-
-
-
-
-
-
-	//start at sink
-			//cout << "T -> " << b1 << " -> " << b2 << " -> " << b3 << endl;
-
-
-
-
-
-
-/*
-
-	//reverses sink edge
-	nodes.find(nodes.size()-1)->second.dests.insert(b1);
-	nodes.find(b1)->second.dests.insert(b2);
-	nodes.find(b2)->second.dests.insert(b3);
-
-
-	//ERASE stuff from dests node!
-
-	//erases sink from b1 dests
-	nodes.find(b1)->second.dests.erase(nodes.find(nodes.size()-1)->second.id);
-
-	//erases letter die from dice dests
-	nodes.find(b2)->second.dests.erase(nodes.find(b1)->second.id);
-
-	//erases dice die from source dests
-	nodes.find(b3)->second.dests.erase(nodes.find(b2)->second.id);
-*/
 	return 0;
 
 }
