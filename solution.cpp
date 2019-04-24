@@ -46,9 +46,7 @@ class Graph {
 
 		int BFS(int);
 
-
 };
-
 
 int main(int argc, char** argv){
 
@@ -254,9 +252,9 @@ Graph::Graph(ifstream &dice, ifstream &word){
 
 					cout << ": " << temp << endl;
 				}
+
 				break;
 			}
-
 
 
 		}
@@ -275,7 +273,6 @@ Graph::Graph(ifstream &dice, ifstream &word){
 		nodes.erase(nodes.find(numOfDice),nodes.end());
 
 	}
-
 }
 
 
@@ -321,30 +318,25 @@ int Graph::BFS(int source){
 				//quits if the sink is added to the queue
 				if(*i == nodes.find(nodes.size()-1)->second.id){
 					sinkFound = 1;
-
 					break;
 				}
-
-
 			}
 		}
 
 		//sink added to queue
 		if(sinkFound==1)
 			break;
-
 	}
-
 
 	if(sinkFound==0)
 		return -1;
-
 
 	//reverse edges down the path
 	int counter = nodes.size()-1;
 
 	while(true){
 
+		//holds backedge id
 		int b = nodes.find(counter)->second.backedge;
 
 		//create edge going back
@@ -353,8 +345,10 @@ int Graph::BFS(int source){
 		//delete edge coming towards this one
 		nodes.find(b)->second.dests.erase(counter);
 
+		//sets current node to the id of the backedge
 		counter = b;
 
+		//breaks if it reaches the source
 		if(counter==0)
 			break;
 
