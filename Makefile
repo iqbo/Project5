@@ -1,6 +1,6 @@
-all: solution
+all: worddice
 
-solution: solution.cpp
-	g++ -g solution.cpp -o solution
+worddice: worddice.cpp
+	g++ -g worddice.cpp -o worddice
 clean:
-	rm solution
+	rm worddice
